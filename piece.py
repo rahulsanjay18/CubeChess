@@ -31,31 +31,30 @@ class PieceFactory:
 
 
 class Rook:
-    def __init__(self, x=-1, y=-1, z=-1, is_white=True):
+    def __init__(self, is_white=True):
         self.piece_representation = 'R' if is_white else 'r'
-        self.x, self.y, self.z = x, y, z
         self.is_white = is_white
         
 
-    def next_legal_move(self):
+    def next_legal_move(self, x, y, z):
         next_moves = []
 
         for i in range(8):
-            if(self.x == i):
+            if(x == i):
                 continue
             next_moves.append(i, y, z)
 
         for i in range(8):
-            if(self.y == i):
+            if(y == i):
                 continue
             next_moves.append(x, i, z)
 
         for i in range(8):
-            if(self.z == i):
+            if(z == i):
                 continue
             next_moves.append(x, y, i)
 
-        self.next_moves = next_moves
+        return next_moves
 
 
 
