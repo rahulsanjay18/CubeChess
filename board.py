@@ -9,11 +9,6 @@ class Board:
 	def __init__(self):
             self.board = [[[0 for k in range(8)] for j in range(8)] for i in
                     range(8)]
-        '''
-        This populates the board with pieces to start the initial game
-        '''
-        def initialize():
-            pass
         
         '''
         this checks whether the move is within the bounds of the game, and does
