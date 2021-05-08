@@ -1,3 +1,5 @@
+import utils
+
 class Piece:
 
     def __init__():
@@ -6,7 +8,7 @@ class Piece:
     def get_color(self):
         return self.sym.upper() == self.sym
     
-    def get_next_moves(self, coords):
+    def is_valid_move(self, coords, new_coords):
         raise NotImplementedError
 
 class PieceFactory:
@@ -46,135 +48,69 @@ class PieceFactory:
 class Rook(Piece):
     def __init__(self, is_white=True):
         self.sym = 'R' if is_white else 'r'
+    
+    def is_valid_move(self, coords, new_coords):
+         
+        diff = (new_coords[0] - coords[0],
+                new_coords[1] - coords[1],
+                new_coords[2] - coords[2])
 
-    def get_next_moves(self, coords):
-        assert len(coords) == 3
+        add = sum(diff)
 
-        next_moves = []
+        # need to prove that this works
+        if diff[0] == add or diff[1] == add or diff[2] == add:
+            return utils.check_if_valid_move(new_coords)
+        return False
 
-        for i in range(8):
-            if(coords[0] == i):
-                continue
-            next_moves.append((i, coords[1], coords[2]))
-
-        for i in range(8):
-            if(coords[1] == i):
-                continue
-            next_moves.append((coords[0], i, coords[2]))
-
-        for i in range(8):
-            if(coords[2] == i):
-                continue
-            next_moves.append((coords[0], coords[1], i))
-
-        return next_moves
 
 class Bishop(Piece):
     def __init__(self, is_white=True):
         self.sym = 'B' if is_white else 'b'
-
-    def get_next_moves(self, coords):
-        assert len(coords) == 3
-
-        next_moves = []
+    
+    def is_valid_move(self, coords, new_coords):
         
-        # i cant think of an algorithm that makes me happy, so im going to do
-        # an interesting one instead
+        abs_diff = (abs(new_coords[0] - coords[0]),
+                    abs(new_coords[1] - coords[1]),
+                    abs(new_coords[2] - (coords[2]))
 
-        adders = []
+        if sum(abs_diff) == 0:
+            return utils.check_if_valid_move(new_coords)
 
-        for i in range(8):
-            adders.append((i, i, i))
-            adders.append((-i, -i, -i))
-            
-            adders.append((-i, i, i))
-            adders.append((i, -i, -i))
+        return False
 
-            adders.append((i, -i, i))
-            adders.append((-i, i, -i))
-           
-            adders.append((i, i, -i))
-            adders.append((-i, -i, i))
-
-
-        for adder in adders:
-            move = tuple(map(lambda i, j: i + j, adder, coords))
-
-            if(8 > move[0] >= 0 and 8 > move[1] >= 0 and 8 > move[2] >= 0):
-                next_moves.append(move)
-
-        return next_moves
 
 class Priest(Piece):
     def __init__(is_white=True):
         self.sym = 'T' if is_white else 't'
 
-    def get_next_moves(self, coords):
-        assert len(coords) == 3
+    def is_valid_move(self, coords, new_coords):
+        
+        abs_diff = (abs(new_coords[0] - coords[0]),
+                    abs(new_coords[1] - coords[1]),
+                    abs(new_coords[2] - (coords[2]))
+        
+        if abs_diff[0] == 0 or abs_diff[1] == 0 or abs_diff[2] == 0:
+            sum_d = sum(abs_diff)
+            if sum_d == 2 * abs_diff[0] or sum_d == 2 * abs_diff[1]:
+                return utils.check_if_valid_move(new_coords)
 
-        next_moves= []
-        adders = []
-
-        for i in range(1, 8):
-            adders.append((0, i, i))
-            adders.append((i, 0, i))
-            adders.append((i, i, 0))
-
-            adders.append((0, -i, -i))
-            adders.append((-i, 0, -i))
-            adders.append((-i, -i, 0))
-            
-            adders.append((0, -i, i))
-            adders.append((-i, 0, i))
-            adders.append((-i, i, 0))
-
-            adders.append((0, i, -i))
-            adders.append((i, 0, -i))
-            adders.append((i, -i, 0))
-            
-
-
-        for adder in adders:
-            move = tuple(map(lambda i, j: i + j, adder, coords))
-
-            if(8 > move[0] >= 0 and 8 > move[1] >= 0 and 8 > move[2] >= 0):
-                next_moves.append(move)
-
-        return next_moves
+        return False
 
 
 class Knight(Piece):
     def __init__(is_white=True):
         self.sym = 'K' if is_white else 'k'
 
-    def get_next_moves(self, coords):
-        assert len(coords) == 3
+    def is_valid_move(self, coords, new_coords):
+        abs_diff = (abs(new_coords[0] - coords[0]),
+                    abs(new_coords[1] - coords[1]),
+                    abs(new_coords[2] - (coords[2]))
 
-        next_moves = []
-        adders = []
+        if abs_diff[0] == 2 or abs_diff[1] == 2 or abs_diff[2] == 2 and
+        sum(abs_diff) == 5: 
 
-        adders.append((2, 1, 1))
-        adders.append((-2, -1, -1))
+
         
-        adders.append((2, 1, 1))
-        adders.append((-2, -1, -1))
-        
-        adders.append((2, 1, 1))
-        adders.append((-2, -1, -1))
-        
-        adders.append((2, 1, 1))
-        adders.append((-2, -1, -1))
-
-
-
-
-
-        for adder in adders:
-            move = tuple(map(lambda i, j: i + j, adder, coords))
-
-            if(8 > move[0] >= 0 and 8 > move[1] >= 0 and 8 > move[2] >= 0):
-                next_moves.append(move)
-
 
 
 
