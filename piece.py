@@ -106,8 +106,14 @@ class Knight(Piece):
                     abs(new_coords[1] - coords[1]),
                     abs(new_coords[2] - (coords[2]))
 
-        if abs_diff[0] == 2 or abs_diff[1] == 2 or abs_diff[2] == 2 and
-        sum(abs_diff) == 5: 
+        if sum(abs_diff) == 5:
+            if (diff[0] == 1 and diff[1] == 1) or
+               (diff[2] == 1 and diff[1] == 1) or
+               (diff[0] == 1 and diff[2] == 1):
+
+               return utils.check_if_valid_move(new_coords)
+        
+        return False
 
 
         
