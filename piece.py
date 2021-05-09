@@ -11,6 +11,9 @@ class Piece:
     def is_valid_move(self, coords, new_coords):
         raise NotImplementedError
 
+    def gen_path_step(self, coords, new_coords):
+        raise NotImplementedError
+
 class PieceFactory:
     """"
     Represents a factory that creates a  piece superclass that each piece inherits from. Each piece has the following functions:
@@ -42,13 +45,13 @@ class PieceFactory:
         elif(piece_name.lower() == 'pawn' or piece_name.lower() == 'i'):
             return Pawn(is_white)
         elif(piece_name.lower() == 'dragon' or piece_name.lower() == 'd'):
-            return Dragon(x, y, z, is_white)
+            return Dragon(is_white)
 
 
 class Rook(Piece):
     def __init__(self, is_white=True):
         self.sym = 'R' if is_white else 'r'
-    
+
     def is_valid_move(self, coords, new_coords):
          
         diff = (new_coords[0] - coords[0],
@@ -61,6 +64,27 @@ class Rook(Piece):
         if diff[0] == add or diff[1] == add or diff[2] == add:
             return utils.check_if_valid_move(new_coords)
         return False
+    
+    def gen_path_step(self, coords, new_coords):
+        
+        assert is_valid_move(self, coords, new_coords)
+
+        temp_coords = tuple(coords)
+        index = -1
+        if(coords[0] != new_coords[0]):
+            index = 0
+        elif(coords[1] != coords[1]):
+            index = 1
+        elif(coords[2] != new_coords[2]):
+            index = 2
+        
+        direction = 1 if coords[index] < new_coords[index] else -1
+
+        while(temp_coords[index] != temp_coords[index]):
+            step = list(temp_coords)
+            step[index] += direction
+            yield tuple(step)
+            temp_coords = tuple(step)
 
 
 class Bishop(Piece):
@@ -116,7 +140,7 @@ class Knight(Piece):
         return False
 
 
-        
+ 
 
 
 
