@@ -95,12 +95,32 @@ class Bishop(Piece):
         
         abs_diff = (abs(new_coords[0] - coords[0]),
                     abs(new_coords[1] - coords[1]),
-                    abs(new_coords[2] - (coords[2]))
+                    abs(new_coords[2] - coords[2]))
 
-        if sum(abs_diff) == 0:
+        if sum(abs_diff) == abs_diff[0] * 3:
             return utils.check_if_valid_move(new_coords)
 
         return False
+    
+    def gen_path_step(self, coords, new_coords):
+        assert is_valid_move(self, coords, new_coords)
+        
+        diff = (new_coords[0] - coords[0],
+                new_coords[1] - coords[1],
+                new_coords[2] - coords[2])
+
+        temp_coords = list(coords)
+
+        x_dir = 1 if diff[0] > 0 else -1
+        y_dir = 1 if diff[1] > 0 else -1
+        z_dir = 1 if diff[2] > 0 else -1
+
+        while temp_coords != new_coords:
+            temp_coords[0] += x_dir
+            temp_coords[1] += y_dir
+            temp_coords[2] += z_dir
+
+            yield tuple(temp_coords)
 
 
 class Priest(Piece):
@@ -120,6 +140,29 @@ class Priest(Piece):
 
         return False
 
+    def gen_path_step(self, coords, new_coords):
+        assert is_valid_move(self, coords, new_coords)
+        diff = (new_coords[0] - coords[0],
+                new_coords[1] - coords[1],
+                new_coords[2] - coords[2])
+
+        temp_coords = list(coords)
+
+        x_dir = 1 if diff[0] > 0 else -1
+        y_dir = 1 if diff[1] > 0 else -1
+        z_dir = 1 if diff[2] > 0 else -1
+
+        while temp_coords != new_coords:
+            
+            if diff[0] != 0:
+                temp_coords[0] += x_dir
+            if diff[1] != 0:
+                temp_coords[1] += y_dir
+            if diff[2] != 0:
+                temp_coords[2] += z_dir
+
+            yield tuple(temp_coords)
+
 
 class Knight(Piece):
     def __init__(is_white=True):
@@ -130,7 +173,7 @@ class Knight(Piece):
                     abs(new_coords[1] - coords[1]),
                     abs(new_coords[2] - (coords[2]))
 
-        if sum(abs_diff) == 5:
+        if sum(abs_diff) == 4:
             if (diff[0] == 1 and diff[1] == 1) or
                (diff[2] == 1 and diff[1] == 1) or
                (diff[0] == 1 and diff[2] == 1):
@@ -139,9 +182,54 @@ class Knight(Piece):
         
         return False
 
+    def gen_path_step(self, coords, new_coords):
+        raise Exception('Knight does not need to generate a path')
+
+
+class Paladin(Piece):
+    
+    def __init__(is_white = True):
+        self.sym = 'P' if is_white else 'p'
+
+    def is_valid_move(self, coods, new_coords):
+       abs_diff = (abs(new_coords[0] - coords[0]),
+                    abs(new_coords[1] - coords[1]),
+                    abs(new_coords[2] - (coords[2]))
 
  
+        if sum(abs_diff) == 3:
+            if diff[0] == 2 or diff[1] == 2 or diff[2] == 2:
+               return utils.check_if_valid_move(new_coords)
+        
+        return False
 
+    def gen_path_step(self, coords, new_coords):
+        raise Exception('Paladin does not need to generate a path')
+ 
+class Dragon(Piece):
+    def __init__(is_white = True):
+        self.sym = 'D' if is_white else 'd'
+
+    def is_valid_move(self, coods, new_coords):
+       abs_diff = (abs(new_coords[0] - coords[0]),
+                    abs(new_coords[1] - coords[1]),
+                    abs(new_coords[2] - (coords[2]))
+
+ 
+        if sum(abs_diff) == 5:
+            if (diff[0] == 2 and diff[1] == 2) or
+               (diff[2] == 2 and diff[1] == 2) or
+               (diff[0] == 2 and diff[2] == 2):
+                
+               return utils.check_if_valid_move(new_coords)
+
+
+        
+        return False
+
+    def gen_path_step(self, coords, new_coords):
+        raise Exception('Dragon does not need to generate a path')
+ 
 
 
 
