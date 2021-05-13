@@ -191,7 +191,7 @@ class Paladin(Piece):
     def __init__(is_white = True):
         self.sym = 'P' if is_white else 'p'
 
-    def is_valid_move(self, coods, new_coords):
+    def is_valid_move(self, coords, new_coords):
        abs_diff = (abs(new_coords[0] - coords[0]),
                     abs(new_coords[1] - coords[1]),
                     abs(new_coords[2] - (coords[2]))
@@ -210,7 +210,7 @@ class Dragon(Piece):
     def __init__(is_white = True):
         self.sym = 'D' if is_white else 'd'
 
-    def is_valid_move(self, coods, new_coords):
+    def is_valid_move(self, coords, new_coords):
        abs_diff = (abs(new_coords[0] - coords[0]),
                     abs(new_coords[1] - coords[1]),
                     abs(new_coords[2] - (coords[2]))
@@ -231,8 +231,55 @@ class Dragon(Piece):
         raise Exception('Dragon does not need to generate a path')
  
 
+class Queen(Piece):
+    
+    def __init__(is_white = True):
+        self.sym = 'Q' if is_white else 'q'
+        self.dir = -1
+
+    def is_valid_move(self, coords, new_coords):
+        
+        return _is_face_move(self, coords, new_coords) or
+               _is_edge_move(self, coords, new_coords) or
+               _is_vertex_move(self, coords, new_coords)
+    
+    def _is_face_move(self, coords, new_coords):
+       
+        diff = (new_coords[0] - coords[0],
+                new_coords[1] - coords[1],
+                new_coords[2] - coords[2])
+        add = sum(diff) 
+        # need to prove that this works
+        if diff[0] == add or diff[1] == add or diff[2] == add:
+            return utils.check_if_valid_move(new_coords)
+        return False
+
+    def _is_edge_move(self, coords, new_coords):
+        abs_diff = (abs(new_coords[0] - coords[0]),
+                    abs(new_coords[1] - coords[1]),
+                    abs(new_coords[2] - coords[2]))
+
+        if sum(abs_diff) == abs_diff[0] * 3:
+            return utils.check_if_valid_move(new_coords)
+
+        return False
+
+    def _is_vertex_move(self, coords, new_coords):
+        abs_diff = (abs(new_coords[0] - coords[0]),
+                    abs(new_coords[1] - coords[1]),
+                    abs(new_coords[2] - (coords[2]))
+        
+        if abs_diff[0] == 0 or abs_diff[1] == 0 or abs_diff[2] == 0:
+            sum_d = sum(abs_diff)
+            if sum_d == 2 * abs_diff[0] or sum_d == 2 * abs_diff[1]:
+                return utils.check_if_valid_move(new_coords)
+
+        return False
 
 
+    def gen_next_path(self, coords, new_coords):
+
+        pass
 
 
 
