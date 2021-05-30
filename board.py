@@ -7,16 +7,13 @@ class Board:
         '''
 
 	def __init__(self):
-            self.board = [[[0 for k in range(8)] for j in range(8)] for i in
+            self.board = [[['_' for k in range(8)] for j in range(8)] for i in
                     range(8)]
-       ''' 
        
-        this checks whether the move is within the bounds of the game, and does
-        not capture a piece that is the same color as it.
-        
-        def check_move(self, piece, x, y, z):
-            if !(utils.check_if_valid_move(piece, x, y, z)):
-                return False
-            
-        return False
-        '''
+        def get(self, coords):
+            return self.board[coords[0]][coords[1]][coords[2]]
+
+        def insert(self, coords, piece='_'):
+            self.board[coords[0]][coords[1]][coords[2]] = piece
+
+
