@@ -1,5 +1,5 @@
 import unittest
-from piece import Rook
+from pieces import Rook
 from board import Board
 import random
 

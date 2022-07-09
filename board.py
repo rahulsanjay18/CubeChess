@@ -1,5 +1,5 @@
-import utils
-from piece import Piece
+import pieces.utils as utils
+from pieces.piece import Piece
 
 class Board:
 

@@ -1,5 +1,5 @@
 import board as b
-import piece as p
+import pieces.piece as p
 
 class Game:
     
