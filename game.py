@@ -1,12 +1,12 @@
-import board as b
+from board import Board
 import pieces.piece as p
 
 class Game:
     
     is_white_turn = True
 
-    def __init__():
-        self.board = b.Board()
+    def __init__(self):
+        self.board = Board()
     
     '''
     Initializes the board with the starting pieces
