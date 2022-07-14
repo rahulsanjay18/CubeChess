@@ -4,7 +4,7 @@ from pieces.piece import Piece
 class Board:
 
     '''
-    This initializes the board, all 256 entries, which is only a character array
+    This initializes the board, all 256 entries, which is only a character array.
     '''
 
     def __init__(self, config=None):
