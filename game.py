@@ -56,6 +56,7 @@ class Game:
         
         piece_char = self.board.get(start)
         piece_end = self.board.get(end)
+        piece_char_l = piece_char.lower()
 
         if piece_char == 0:
             # the start position is blank, move cannot be made
@@ -68,11 +69,9 @@ class Game:
         piece = self.factory.create_piece(piece_char, is_white=piece_char.islower())
 
         if not piece.is_valid_move(start, end):
-            # TODO: check if pawn attack is good
             return False
         
         # The shape of the movement is valid, now we need to check if there is a path from one to the other
-        piece_char_l = piece_char.lower()
         if piece_char_l in self.path_pieces:
             path_pos = piece.gen_path_step(start, end)
             if self.is_path_empty(path_pos):

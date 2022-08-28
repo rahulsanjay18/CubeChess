@@ -16,6 +16,9 @@ class Pawn(Piece):
         if diff == [0, fwd_step, 0]:
             return utils.check_if_valid_move(new_coords)
         
+        if self.is_valid_attack(coords, new_coords):
+            return utils.check_if_valid_move(new_coords)
+
         return False
     
     def gen_next_path(self, coords, new_coords):

@@ -20,9 +20,9 @@ class Rook(Piece):
     
     def gen_path_step(self, coords, new_coords):
         
-        # assert self.is_valid_move(coords, new_coords)
+        assert self.is_valid_move(coords, new_coords)
 
-        temp_coords = tuple(coords)
+        temp_coords = coords.copy()
         index = -1
         if(coords[0] != new_coords[0]):
             index = 0
@@ -34,10 +34,9 @@ class Rook(Piece):
         direction = 1 if coords[index] < new_coords[index] else -1
         
         path = []
-        step = list(temp_coords)
 
-        while(step[index] != new_coords[index]):
-            step[index] += direction
-            path.append(tuple(step))
+        while(temp_coords[index] != new_coords[index]):
+            temp_coords[index] += direction
+            path.append(temp_coords)
 
-        return path
+        return path[:-1]

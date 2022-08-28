@@ -9,7 +9,7 @@ class Priest(Piece):
         
         abs_diff = (abs(new_coords[0] - coords[0]),
                     abs(new_coords[1] - coords[1]),
-                    abs(new_coords[2] - (coords[2])))
+                    abs(new_coords[2] - coords[2]))
         
         if abs_diff[0] == 0 or abs_diff[1] == 0 or abs_diff[2] == 0:
             sum_d = sum(abs_diff)
@@ -24,11 +24,13 @@ class Priest(Piece):
                 new_coords[1] - coords[1],
                 new_coords[2] - coords[2])
 
-        temp_coords = list(coords)
+        temp_coords = coords.copy()
 
         x_dir = 1 if diff[0] > 0 else -1
         y_dir = 1 if diff[1] > 0 else -1
         z_dir = 1 if diff[2] > 0 else -1
+
+        path = []
 
         while temp_coords != new_coords:
             
@@ -39,4 +41,6 @@ class Priest(Piece):
             if diff[2] != 0:
                 temp_coords[2] += z_dir
 
-            yield tuple(temp_coords)
+            path.append(temp_coords)
+        
+        return path[:-1]

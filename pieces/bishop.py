@@ -23,7 +23,7 @@ class Bishop(Piece):
                 new_coords[1] - coords[1],
                 new_coords[2] - coords[2])
 
-        temp_coords = list(coords)
+        temp_coords = coords.copy()
 
         x_dir = 1 if diff[0] > 0 else -1
         y_dir = 1 if diff[1] > 0 else -1
