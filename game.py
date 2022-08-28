@@ -20,7 +20,7 @@ class Game:
         self.board = Board(yaml_file['board_str'])
         self.moves = []
         self.factory = PieceFactory()
-        self.path_pieces = ['i', 'r', 'b', 't', 'q']
+        self.path_pieces = ['r', 'b', 't', 'q']
 
 
     def is_path_empty(self, path_pos):
@@ -68,6 +68,7 @@ class Game:
         piece = self.factory.create_piece(piece_char, is_white=piece_char.islower())
 
         if not piece.is_valid_move(start, end):
+            # TODO: check if pawn attack is good
             return False
         
         # The shape of the movement is valid, now we need to check if there is a path from one to the other

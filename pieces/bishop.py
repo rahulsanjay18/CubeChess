@@ -11,7 +11,7 @@ class Bishop(Piece):
                     abs(new_coords[1] - coords[1]),
                     abs(new_coords[2] - coords[2]))
 
-        if sum(abs_diff) == abs_diff[0] * 3:
+        if sum(abs_diff) == abs_diff[0] * 3 and sum(abs_diff) == abs_diff[1] * 3:
             return utils.check_if_valid_move(new_coords)
 
         return False
@@ -28,10 +28,13 @@ class Bishop(Piece):
         x_dir = 1 if diff[0] > 0 else -1
         y_dir = 1 if diff[1] > 0 else -1
         z_dir = 1 if diff[2] > 0 else -1
+        paths = []
 
         while temp_coords != new_coords:
             temp_coords[0] += x_dir
             temp_coords[1] += y_dir
             temp_coords[2] += z_dir
-
-            yield tuple(temp_coords)
+            paths.append(temp_coords)
+        
+        return paths[:-1]
+            

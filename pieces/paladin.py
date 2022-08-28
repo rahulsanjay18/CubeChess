@@ -7,7 +7,10 @@ class Paladin(Piece):
         self.sym = 'P' if is_white else 'p'
 
     def is_valid_move(self, coords, new_coords):
-        abs_diff = (abs(new_coords[0] - coords[0]), abs(new_coords[1] - coords[1]), abs(new_coords[2] - (coords[2])))
+        abs_diff = (abs(new_coords[0] - coords[0]), 
+                    abs(new_coords[1] - coords[1]), 
+                    abs(new_coords[2] - coords[2]))
+        
         if sum(abs_diff) == 3:
             if abs_diff[0] == 2 or abs_diff[1] == 2 or abs_diff[2] == 2:
                 return utils.check_if_valid_move(new_coords)

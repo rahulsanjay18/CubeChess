@@ -8,17 +8,14 @@ class Dragon(Piece):
     def is_valid_move(self, coords, new_coords):
         abs_diff = (abs(new_coords[0] - coords[0]),
                     abs(new_coords[1] - coords[1]),
-                    abs(new_coords[2] - (coords[2])))
-
+                    abs(new_coords[2] - coords[2]))
  
         if sum(abs_diff) == 5:
-            if (abs_diff[0] == 2 and abs_diff[1] == 2) or\
-               (abs_diff[2] == 2 and abs_diff[1] == 2) or\
-               (abs_diff[0] == 2 and abs_diff[2] == 2):
+            if (abs_diff == [2, 2, 1]) or\
+               (abs_diff == [2, 1, 2]) or\
+               (abs_diff == [1, 2, 2]):
                 
                return utils.check_if_valid_move(new_coords)
-
-
         
         return False
 
