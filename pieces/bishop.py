@@ -12,13 +12,13 @@ class Bishop(Piece):
                     abs(new_coords[2] - coords[2]))
 
         if sum(abs_diff) == abs_diff[0] * 3 and sum(abs_diff) == abs_diff[1] * 3:
-            return utils.check_if_valid_move(new_coords)
+            return utils.check_if_valid_pos(new_coords)
 
         return False
     
     def gen_path_step(self, coords, new_coords):
         assert self.is_valid_move(coords, new_coords)
-        
+
         diff = (new_coords[0] - coords[0],
                 new_coords[1] - coords[1],
                 new_coords[2] - coords[2])
@@ -34,7 +34,7 @@ class Bishop(Piece):
             temp_coords[0] += x_dir
             temp_coords[1] += y_dir
             temp_coords[2] += z_dir
-            paths.append(temp_coords)
+            paths.append(temp_coords.copy())
         
         return paths[:-1]
             

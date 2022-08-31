@@ -1,5 +1,5 @@
 import unittest
-from pieces import Rook
+from pieces.rook import Rook
 from board import Board
 import random
 
@@ -15,7 +15,7 @@ class testRook(unittest.TestCase):
         y = random.randint(0, 7)
         z = random.randint(0, 7)
         
-        self.assertTrue(self.test_rook.is_valid_move((x, y, z), (new_x, y, z)))
+        self.assertTrue(self.test_rook.is_valid_move([x, y, z], [new_x, y, z]))
     
     def test_y_valid_move(self):
         x = random.randint(0, 7)
@@ -25,7 +25,7 @@ class testRook(unittest.TestCase):
             new_y = random.randint(0, 7)
         z = random.randint(0, 7)
         
-        self.assertTrue(self.test_rook.is_valid_move((x, y, z), (x, new_y, z)))
+        self.assertTrue(self.test_rook.is_valid_move([x, y, z], [x, new_y, z]))
 
     def test_z_valid_move(self):
         x = random.randint(0, 7)
@@ -35,14 +35,14 @@ class testRook(unittest.TestCase):
         while(z == new_z):
             new_z = random.randint(0, 7)
 
-        self.assertTrue(self.test_rook.is_valid_move((x, y, z), (x, y, new_z)))
+        self.assertTrue(self.test_rook.is_valid_move([x, y, z], [x, y, new_z]))
 
     def test_did_not_move(self):
         x = random.randint(0, 7)
         y = random.randint(0, 7)
         z = random.randint(0, 7)
 
-        self.assertFalse(self.test_rook.is_valid_move((x, y, z), (x, y, z)))
+        self.assertFalse(self.test_rook.is_valid_move([x, y, z], [x, y, z]))
 
     def test_invalid_move(self):
         x = random.randint(0, 7)
@@ -52,14 +52,14 @@ class testRook(unittest.TestCase):
         y = random.randint(0, 7)
         z = random.randint(0, 7)
 
-        self.assertFalse(self.test_rook.is_valid_move((x, y, z), (new_x, (y+1) % 8, z)))
+        self.assertFalse(self.test_rook.is_valid_move([x, y, z], [new_x, (y+1) % 8, z]))
     
     def test_out_of_bounds(self):
         x = random.randint(0, 7)
         y = random.randint(0, 7)
         z = random.randint(0, 7)
 
-        self.assertFalse(self.test_rook.is_valid_move((x, y, z), (9, y, z)))
+        self.assertFalse(self.test_rook.is_valid_move([x, y, z], [9, y, z]))
 
     def test_gen_path_step(self):
         x = 0
@@ -67,12 +67,20 @@ class testRook(unittest.TestCase):
         y = random.randint(0, 7)
         z = random.randint(0, 7)
 
-        result_path = [(1, y, z), (2, y, z), (3, y, z), (4, y, z)]
-        path = self.test_rook.gen_path_step((x, y, z), (new_x, y, z))
+        result_path = [[1, y, z], [2, y, z], [3, y, z]]
+        path = self.test_rook.gen_path_step([x, y, z], [new_x, y, z])
 
         self.assertEqual(result_path, path)
 
+    def test_check_attack(self):
+        x = random.randint(0, 7)
+        new_x = random.randint(0, 7)
+        while(x == new_x):
+            new_x = random.randint(0, 7)
+        y = random.randint(0, 7)
+        z = random.randint(0, 7)
         
+        self.assertTrue(self.test_rook.is_valid_attack([x, y, z], [new_x, y, z]))
 
 if __name__ == '__main__':
     unittest.main()

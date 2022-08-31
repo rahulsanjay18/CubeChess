@@ -37,6 +37,6 @@ class Rook(Piece):
 
         while(temp_coords[index] != new_coords[index]):
             temp_coords[index] += direction
-            path.append(temp_coords)
+            path.append(temp_coords.copy())
 
         return path[:-1]

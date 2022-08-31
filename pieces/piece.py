@@ -13,4 +13,7 @@ class Piece:
         raise NotImplementedError
 
     def is_valid_attack(self, coords, new_coords):
-        return self.is_valid_move(self, coords, new_coords)
+        return self.is_valid_move(coords, new_coords)
+    
+    def gen_path_options(self, coords, board):
+        raise NotImplementedError
