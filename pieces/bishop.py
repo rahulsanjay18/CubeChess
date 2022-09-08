@@ -11,7 +11,7 @@ class Bishop(Piece):
                     abs(new_coords[1] - coords[1]),
                     abs(new_coords[2] - coords[2]))
         
-        if sum(abs_diff) == abs_diff[0] * 3 and sum(abs_diff) == abs_diff[1] * 3:
+        if sum(abs_diff) == abs_diff[0] * 3 and sum(abs_diff) == abs_diff[1] * 3 and sum(abs_diff) != 0:
             return utils.check_if_valid_pos(new_coords)
 
         return False

@@ -7,9 +7,9 @@ class Rook(Piece):
 
     def is_valid_move(self, coords, new_coords):
          
-        diff = (new_coords[0] - coords[0],
-                new_coords[1] - coords[1],
-                new_coords[2] - coords[2])
+        diff = (abs(new_coords[0] - coords[0]),
+                abs(new_coords[1] - coords[1]),
+                abs(new_coords[2] - coords[2]))
 
         add = sum(diff)
         
@@ -35,8 +35,8 @@ class Rook(Piece):
         
         path = []
 
-        while(temp_coords[index] != new_coords[index]):
+        while(temp_coords[index]+ direction != new_coords[index]):
             temp_coords[index] += direction
             path.append(temp_coords.copy())
 
-        return path[:-1]
+        return path

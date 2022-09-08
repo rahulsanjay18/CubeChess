@@ -11,7 +11,7 @@ class Priest(Piece):
                     abs(new_coords[1] - coords[1]),
                     abs(new_coords[2] - coords[2]))
         
-        if abs_diff[0] == 0 or abs_diff[1] == 0 or abs_diff[2] == 0:
+        if (abs_diff[0] == 0 or abs_diff[1] == 0 or abs_diff[2] == 0) and sum(abs_diff) != 0:
             sum_d = sum(abs_diff)
             if sum_d == 2 * abs_diff[0] or sum_d == 2 * abs_diff[1]:
                 return utils.check_if_valid_pos(new_coords)

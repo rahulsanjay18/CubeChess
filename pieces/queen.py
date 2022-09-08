@@ -9,19 +9,22 @@ class Queen(Piece):
 
     def is_valid_move(self, coords, new_coords):
         
-        return self._is_face_move(self, coords, new_coords) or\
-               self._is_edge_move(self, coords, new_coords) or\
-               self._is_vertex_move(self, coords, new_coords)
+        return self._is_face_move(coords, new_coords) or\
+               self._is_edge_move(coords, new_coords) or\
+               self._is_vertex_move(coords, new_coords)
     
     def _is_face_move(self, coords, new_coords):
        
-        diff = (new_coords[0] - coords[0],
-                new_coords[1] - coords[1],
-                new_coords[2] - coords[2])
-        add = sum(diff) 
-        # need to prove that this works 
+        diff = (abs(new_coords[0] - coords[0]),
+                abs(new_coords[1] - coords[1]),
+                abs(new_coords[2] - coords[2]))
+
+        add = sum(diff)
+
+        # need to prove that this works
         if add != 0 and (diff[0] == add or diff[1] == add or diff[2] == add):
-            return utils.check_if_valid_move(new_coords)
+            return utils.check_if_valid_pos(new_coords)
+        
         return False
 
     def _is_edge_move(self, coords, new_coords):
@@ -29,10 +32,10 @@ class Queen(Piece):
                     abs(new_coords[1] - coords[1]),
                     abs(new_coords[2] - coords[2]))
 
-        if abs_diff[0] == 0 or abs_diff[1] == 0 or abs_diff[2] == 0:
+        if (abs_diff[0] == 0 or abs_diff[1] == 0 or abs_diff[2] == 0) and sum(abs_diff) != 0:
             sum_d = sum(abs_diff)
             if sum_d == 2 * abs_diff[0] or sum_d == 2 * abs_diff[1]:
-                return utils.check_if_valid_move(new_coords)
+                return utils.check_if_valid_pos(new_coords)
 
         return False
 
@@ -41,13 +44,12 @@ class Queen(Piece):
                     abs(new_coords[1] - coords[1]),
                     abs(new_coords[2] - (coords[2])))
         
-        if sum(abs_diff) == abs_diff[0] * 3 and sum(abs_diff) == abs_diff[1] * 3:
-            return utils.check_if_valid_move(new_coords)
+        if sum(abs_diff) == abs_diff[0] * 3 and sum(abs_diff) == abs_diff[1] * 3 and sum(abs_diff) != 0:
+            return utils.check_if_valid_pos(new_coords)
 
         return False
 
-
-    def gen_next_path(self, coords, new_coords):
+    def gen_path_step(self, coords, new_coords):
         path = []
         if self._is_face_move(coords, new_coords):
             temp_coords = coords.copy()
@@ -61,9 +63,10 @@ class Queen(Piece):
             
             direction = 1 if coords[index] < new_coords[index] else -1
 
-            while(temp_coords[index] != new_coords[index]):
+            while (temp_coords[index]+ direction != new_coords[index]):
+
                 temp_coords[index] += direction
-                path.append(temp_coords)
+                path.append(temp_coords.copy())
         elif self._is_edge_move(coords, new_coords):
             diff = (new_coords[0] - coords[0],
                 new_coords[1] - coords[1],
@@ -75,7 +78,9 @@ class Queen(Piece):
             y_dir = 1 if diff[1] > 0 else -1
             z_dir = 1 if diff[2] > 0 else -1
 
-            while temp_coords != new_coords:
+            while temp_coords[0] + x_dir != new_coords[0] and \
+                  temp_coords[1] + y_dir != new_coords[1] and \
+                  temp_coords[2] + z_dir != new_coords[2]:
                 
                 if diff[0] != 0:
                     temp_coords[0] += x_dir
@@ -84,7 +89,7 @@ class Queen(Piece):
                 if diff[2] != 0:
                     temp_coords[2] += z_dir
 
-                path.append(temp_coords)
+                path.append(temp_coords.copy())
         elif self._is_vertex_move(coords, new_coords):
             diff = (new_coords[0] - coords[0],
                     new_coords[1] - coords[1],
@@ -96,12 +101,15 @@ class Queen(Piece):
             y_dir = 1 if diff[1] > 0 else -1
             z_dir = 1 if diff[2] > 0 else -1
 
-            while temp_coords != new_coords:
+            while temp_coords[0] + x_dir != new_coords[0] and \
+                  temp_coords[1] + y_dir != new_coords[1] and \
+                  temp_coords[2] + z_dir != new_coords[2]:
+                
                 temp_coords[0] += x_dir
                 temp_coords[1] += y_dir
                 temp_coords[2] += z_dir
-                path.append(temp_coords)
+                path.append(temp_coords.copy())
         else:
             raise Exception("Bad move input!")
 
-        return path[:-1]
+        return path
