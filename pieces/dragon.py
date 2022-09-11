@@ -1,5 +1,6 @@
 from pieces.piece import Piece
 from pieces import utils
+from coords import Coordinates
 
 class Dragon(Piece):
     def __init__(self, is_white = True):
@@ -9,13 +10,14 @@ class Dragon(Piece):
         abs_diff = (abs(new_coords[0] - coords[0]),
                     abs(new_coords[1] - coords[1]),
                     abs(new_coords[2] - coords[2]))
- 
+        
         if sum(abs_diff) == 5:
-            if (abs_diff == [2, 2, 1]) or\
-               (abs_diff == [2, 1, 2]) or\
-               (abs_diff == [1, 2, 2]):
+            c = Coordinates(abs_diff)
+            if (c == Coordinates([2, 2, 1])) or\
+               (c == Coordinates([2, 1, 2])) or\
+               (c == Coordinates([1, 2, 2])):
                 
-               return utils.check_if_valid_move(new_coords)
+               return utils.check_if_valid_pos(new_coords)
         
         return False
 
