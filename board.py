@@ -20,12 +20,11 @@ class Board:
         board_str = ''
         for plane in self.board:
             for line in plane:
-                row = ''.join(line)
-                board_str += row + '/'
-            board_str += '~'
-        
-        return board_str
-            
+                board_str += line + '/'
+            board_str = board_str[:-1] + '\n'
+
+        return board_str[:-1]
+         
 
     def __repr__(self) -> str:
         return self.__str__()
@@ -40,7 +39,7 @@ class Board:
 
         for line in data:
             rows = line.split('/')
-            board.append([row.split('') for row in rows])
+            board.append([c for c in rows])
 
         return board
 

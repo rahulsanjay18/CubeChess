@@ -1,5 +1,5 @@
 
-from CubeChess.pieces import piece
+from pieces import piece
 
 
 class Move:

@@ -1,6 +1,6 @@
 from curses.ascii import islower
 import yaml
-from CubeChess.pieces import piece_factory
+from pieces import piece_factory
 from board import Board
 import pieces.piece as p
 from pieces.utils import check_if_valid_pos
