@@ -84,3 +84,11 @@ class Game:
         self.moves.append(move)
 
         return True
+
+    '''
+    function overload for make_move that takes in tuples
+    coords: (x, y, z)
+    coords_p: (x', y', z')
+    '''
+    def make_move(self, coords: tuple, coords_p: tuple):
+        return self.make_move(coords[0], coords[1], coords[2], coords_p[0], coords_p[1], coords_p[2])
