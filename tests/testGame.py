@@ -12,6 +12,7 @@ class testGame(unittest.TestCase):
     Check result.
     '''
     def test_make_move(self):
+        
         pass
 
     '''

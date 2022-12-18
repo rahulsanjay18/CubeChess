@@ -11,13 +11,13 @@ class Pawn(Piece):
                 new_coords[1] - coords[1],
                 new_coords[2] - coords[2])
         
-        fwd_step = 1 if self.sym.islower() else -1
-
-        if diff == [0, fwd_step, 0]:
-            return utils.check_if_valid_move(new_coords)
+        fwd_step = -1 if self.sym.islower() else 1
+        
+        if diff[0] == 0 and diff[1] == fwd_step and diff[2] == 0:
+            return utils.check_if_valid_pos(new_coords)
         
         if self.is_valid_attack(coords, new_coords):
-            return utils.check_if_valid_move(new_coords)
+            return utils.check_if_valid_pos(new_coords)
 
         return False
     
@@ -29,9 +29,9 @@ class Pawn(Piece):
                 new_coords[1] - coords[1],
                 new_coords[2] - coords[2])
         
-        fwd_step = 1 if self.sym.islower() else -1
+        fwd_step = -1 if self.sym.islower() else 1
 
         if diff[1] == fwd_step and (diff[0] == 1 or diff[0] == -1) and (diff[2] == 1 or diff[2] == -1):
-            return utils.check_if_valid_move(new_coords)
+            return utils.check_if_valid_pos(new_coords)
 
         return False

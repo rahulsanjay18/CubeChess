@@ -16,18 +16,18 @@ class Board:
                     range(8)]
         
         
-    def __str__(self) -> str:
+    def display_board(self) -> str:
         board_str = ''
         for plane in self.board:
             for line in plane:
-                board_str += line + '/'
+                board_str += ''.join(line) + '/'
             board_str = board_str[:-1] + '\n'
 
         return board_str[:-1]
          
 
-    def __repr__(self) -> str:
-        return self.__str__()
+    # def __repr__(self) -> str:
+    #     return self.__str__()
 
     '''
     Initializes the board with the starting pieces
@@ -39,7 +39,7 @@ class Board:
 
         for line in data:
             rows = line.split('/')
-            board.append([c for c in rows])
+            board.append([list(c) for c in rows])
 
         return board
 
@@ -47,7 +47,9 @@ class Board:
         return self.board[coords[0]][coords[1]][coords[2]]
 
     def insert(self, coords, piece):
-        self.board[coords[0]][coords[1]][coords[2]] = piece.sym
+        replaced = self.board[coords[0]][coords[1]][coords[2]]
+        self.board[coords[0]][coords[1]][coords[2]] = piece
+        return replaced
     
 
 

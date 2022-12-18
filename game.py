@@ -11,7 +11,7 @@ class Game:
     
     is_white_turn = True
 
-    def __init__(self, config='default.yaml'):
+    def __init__(self, config='default.yaml', debug: bool= False):
         with open(config, "r") as stream:
             try:
                 yaml_file = yaml.safe_load(stream)
@@ -21,6 +21,7 @@ class Game:
         self.moves = []
         self.factory = PieceFactory()
         self.path_pieces = ['r', 'b', 't', 'q']
+        self.debug = debug
 
 
     def is_path_empty(self, path_pos):
@@ -32,6 +33,9 @@ class Game:
 
     def convert_coords_to_move(self, piece_char, start, end, is_capture):
         return Move(piece_char, start, end, is_capture)
+
+    def display_board(self):
+        return self.board.display_board()
 
     '''
     This is done in a few steps:
@@ -52,6 +56,8 @@ class Game:
         end = [x_p, y_p, z_p]
         if not check_if_valid_pos(start) or not check_if_valid_pos(end):
             # invalid position, move cannot be made
+            if self.debug:
+                print('invalid position, move cannot be made')
             return False
         
         piece_char = self.board.get(start)
@@ -60,21 +66,29 @@ class Game:
 
         if piece_char == 0:
             # the start position is blank, move cannot be made
+            if self.debug:
+                print('the start position is blank, move cannot be made')
             return False
 
         if piece_end.islower() == piece_char.islower():
             # start and end piece are the same color, so the move cannot be hit
+            if self.debug:
+                print('start and end piece are the same color, so the move cannot be hit')
             return False
         
         piece = self.factory.create_piece(piece_char, is_white=piece_char.islower())
 
         if not piece.is_valid_move(start, end):
+            if self.debug:
+                print('move position is invalid')
             return False
         
         # The shape of the movement is valid, now we need to check if there is a path from one to the other
         if piece_char_l in self.path_pieces:
             path_pos = piece.gen_path_step(start, end)
             if self.is_path_empty(path_pos):
+                if self.debug:
+                    print(f'piece {piece_char_l}, needs a clear path, and there is no clear path')
                 return False
         
         is_capture = piece_end.islower() != piece_char.islower()
@@ -83,6 +97,9 @@ class Game:
 
         self.moves.append(move)
 
+        self.board.insert(start, '0')
+        captured = self.board.insert(end, piece_char)
+
         return True
 
     '''
@@ -90,5 +107,5 @@ class Game:
     coords: (x, y, z)
     coords_p: (x', y', z')
     '''
-    def make_move(self, coords: tuple, coords_p: tuple):
+    def make_move_t(self, coords: tuple, coords_p: tuple):
         return self.make_move(coords[0], coords[1], coords[2], coords_p[0], coords_p[1], coords_p[2])
