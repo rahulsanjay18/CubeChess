@@ -1,19 +1,26 @@
 import pieces.utils as utils
 from pieces.piece_factory import PieceFactory
+import numpy as np
 
 class Board:
+
+    # Do not change, this is just to eliminate the magic number
+    size = 8
 
     '''
     This initializes the board, all 256 entries, which is only a character array.
     '''
-
     def __init__(self, board_str=''):
+        
         # keep board state as char
         if board_str != '':
             self.board = self.initialize(board_str)
+        elif board_str == 'blank':
+            self.board = [[['0' for _ in range(Board.size)] for __ in range(Board.size)] for ___ in
+                    range(Board.size)]
         else:
-            self.board = [[['' for _ in range(8)] for __ in range(8)] for ___ in
-                    range(8)]
+            self.board = [[['' for _ in range(Board.size)] for __ in range(Board.size)] for ___ in
+                    range(Board.size)]
         
         
     def display_board(self) -> str:
@@ -23,11 +30,13 @@ class Board:
                 board_str += ''.join(line) + '/'
             board_str = board_str[:-1] + '\n'
 
-        return board_str[:-1]
-         
+        return board_str
 
-    # def __repr__(self) -> str:
-    #     return self.__str__()
+    def convert_to_numpy(self):
+        array = [[[ord(c) for c in line] for line in self.board] for plane in
+                    self.board]
+        
+        return np.asarray(array)
 
     '''
     Initializes the board with the starting pieces
